@@ -1,7 +1,7 @@
 public class Homework2 {
     public static void main(String[] args) {
         String s = "I love you";
-        System.out.println(s + "forever");
+        System.out.println(s + " forever");
         System.out.println(s.substring(0, 8));
 //        String s1 = s.substring(0, 2);
 //        String s2 = s.substring(2, 6);
