@@ -23,10 +23,18 @@ public class OnClass2 {
                     System.out.println(a + " * " + b + " = " + (a * b));
                     break;
                 case "/":
-                    System.out.println(a + " : " + b + " = " + (a / b));
+                    if(b == 0){
+                        System.out.println("Không thể chia cho 0 !!!");
+                    }
+                    else
+                        System.out.println(a + " : " + b + " = " + (a / b));
                     break;
                 case "%":
-                    System.out.println(a + " % " + b + " = " + (a % b));
+                    if(b == 0){
+                        System.out.println("Không thể chia cho 0 !!!");
+                    }
+                    else
+                        System.out.println(a + " % " + b + " = " + (a % b));
                     break;
                 default:
                     System.out.println("Phép toán sai!!!");
