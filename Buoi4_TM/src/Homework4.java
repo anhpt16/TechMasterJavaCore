@@ -1,4 +1,4 @@
-import java.util.Scanner;
+import java.util.*;
 
 public class Homework4 {
     public static void main(String[] args) {
@@ -48,6 +48,16 @@ public class Homework4 {
             }
         }
         System.out.println("Mảng sắp xếp từ nhỏ đến lớn: ");
+        for (int i = 0; i <= n; i++) {
+            System.out.print(aplus[i] + " ");
+        }
+        System.out.println();
+        for (int i = 0; i <= (n + 1)/2; i++) {
+                int tempy = aplus[i];
+                aplus[i] = aplus[n-i];
+                aplus[n-i] = tempy;
+        }
+        System.out.println("Mảng sắp xếp từ lớn đến nhỏ: ");
         for (int i = 0; i <= n; i++) {
             System.out.print(aplus[i] + " ");
         }
