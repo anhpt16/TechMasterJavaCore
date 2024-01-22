@@ -11,7 +11,7 @@ public class Homework5 {
         int rowB = Integer.parseInt(sc.nextLine());
         System.out.println("Nhập vào số cột ma trận B: ");
         int colB = Integer.parseInt(sc.nextLine());
-        if(rowA != rowB || colA != colB){
+        if(rowA != rowB || colA != colB || rowA == 0 || rowB == 0){
             System.out.println("Không thể thực hiện !!!");
         }
         else{
