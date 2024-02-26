@@ -1,11 +1,14 @@
-package Slide13;
-
-import java.util.Scanner;
+package entities;
 
 public abstract class SinhVienTechMaster {
     private String name;
     private String major;
-    
+
+    public SinhVienTechMaster(String name, String major) {
+        this.name = name;
+        this.major = major;
+    }
+
     public abstract double getDiem();
     public String getHocLuc(double diem){
         if(diem < 5){
