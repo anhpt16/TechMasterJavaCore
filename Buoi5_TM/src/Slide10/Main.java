@@ -5,8 +5,14 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Nhập số lượng nhân viên: ");
-        int n = Integer.parseInt(sc.nextLine());
+        int n;
+        do {
+            System.out.println("Nhập số lượng nhân viên: ");
+            n = Integer.parseInt(sc.nextLine());
+            if (n <= 0) {
+                System.out.println("Số lượng phải lớn hơn 0!");
+            }
+        } while(n <= 0);
 
         Employee[] arrEmp = new Employee[n];
         int id;
