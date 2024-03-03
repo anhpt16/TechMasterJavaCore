@@ -44,9 +44,6 @@ public class ForgotPassword {
                             System.out.println("Password update successfully !");
                             System.out.println("----------------------------------");
                             mainMenu.mainMenu(sc, users, user);
-                            //Dùng break để thoát khỏi vòng lặp và chuyển về --> MenuLogin --> MenuStart
-                            //Ý: 4 - Đăng xuất (Sau khi đăng xuất quay về mục yêu cầu đăng nhập hoặc đăng ký)
-                            break;
                         }
                     }
                 } while (!isCorrectFormat);

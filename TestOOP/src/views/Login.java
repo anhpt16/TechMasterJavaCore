@@ -22,7 +22,7 @@ public class Login {
 
         System.out.println("----------- Login -----------");
         User user = null;
-        boolean isLoginAgain = false;
+        int choose = 0;
         do {
             System.out.print("--Enter Username: ");
             String username = RemoveBlank.removeBlank(sc.nextLine());
@@ -36,7 +36,6 @@ public class Login {
                 //Kiểm tra mật khẩu
                 if (userService.findAccount(username, password, users) == null) {
                     System.out.println("Wrong Password !");
-                    int choose = 0;
                     do {
                         System.out.println("------------------");
                         System.out.println("1 - Login again");
@@ -47,7 +46,6 @@ public class Login {
 
                         switch (choose) {
                             case Constant.LOGIN_AGAIN:
-                                isLoginAgain = true;
                                 break;
                             case Constant.FORGOT_PASSWORD:
                                 forgotPassword.fogotPasswordView(sc, users, user);
@@ -58,6 +56,6 @@ public class Login {
                     mainMenu.mainMenu(sc, users, user);
                 }
             }
-        } while (user == null || isLoginAgain == true);
+        } while (choose == 1);
     }
 }
