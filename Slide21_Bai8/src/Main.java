@@ -1,6 +1,6 @@
 import entities.Center;
 import services.CenterService;
-
+import views.Menu;
 import java.util.Scanner;
 
 public class Main {
@@ -10,6 +10,7 @@ public class Main {
         //Nhập thông tin cho trung tâm
         Center center = centerService.inputInfo(sc);
         //Hiển thị menu
-        centerService.Menu(sc, center);
+        Menu menu = new Menu();
+        menu.Menu(sc, center);
     }
 }

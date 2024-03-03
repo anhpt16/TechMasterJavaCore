@@ -25,6 +25,10 @@ public class Student {
         this.level = level;
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public String toString() {
         return

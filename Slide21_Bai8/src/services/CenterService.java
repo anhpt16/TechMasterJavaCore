@@ -2,10 +2,9 @@ package services;
 
 import entities.Center;
 import entities.Course;
-import Utils.Constant;
+import utils.Constant;
 import entities.Student;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CenterService {
@@ -32,36 +31,5 @@ public class CenterService {
         }
     }
 
-    public void Menu(Scanner sc, Center center){
-        CourseService courseService = new CourseService();
-        StudentService studentService = new StudentService();
-        int choose = 0;
-        do {
-            System.out.println("---------------------------------");
-            System.out.println("1. Hiển thị thông tin trung tâm");
-            System.out.println("2. Thêm học viên");
-            System.out.println("3. Cập nhật thông tin");
-            System.out.println("4. Xóa học viên");
-            System.out.println("0. Thoát");
-            System.out.print("Nhập lựa chọn: ");
-            choose = Integer.parseInt(sc.nextLine());
-            System.out.println("-----------------------------------");
-            switch (choose){
-                case Constant.DISPLAY:
-                    displayInfo(center);
-                    break;
-                case Constant.ADD:
-                    System.out.println(studentService.addStudent(sc, center.getCourse()));
-                    break;
-                case Constant.UPDATE:
-                    System.out.println(studentService.updateStudent(sc, center.getCourse().getStudents()));;
-                    break;
-                case Constant.DELETE:
-                    System.out.println(studentService.deleteStudent(sc, center.getCourse().getStudents()));;
-                    break;
-                default:
-                    break;
-            }
-        } while (choose != 0);
-    }
+
 }

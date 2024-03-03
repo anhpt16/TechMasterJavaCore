@@ -54,4 +54,20 @@ public class StudentService {
         }
         return "Không tìm thấy id !";
     }
+
+    public ArrayList<Student> searchStudentByName(Scanner sc, ArrayList<Student> students){
+        if (students != null){
+            ArrayList<Student> listSearch = new ArrayList<>();
+            System.out.print("Nhập tên muốn tìm kiếm: ");
+            String nameSearch = sc.nextLine();
+            for (Student s : students){
+                if (s.getName().equalsIgnoreCase(nameSearch)){
+                    listSearch.add(s);
+                }
+            }
+            return listSearch;
+        }
+        else
+            return null;
+    }
 }
