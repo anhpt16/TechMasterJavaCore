@@ -1,10 +1,14 @@
 package services;
 
+import Comparetor.BookSavingCompareByDeposit;
 import entities.Bank;
 import entities.BookSaving;
 import entities.Customer;
+import Comparetor.BookSavingCompareByName;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class BookSavingService {
@@ -21,11 +25,14 @@ public class BookSavingService {
                         cus = c;
                         break;
                     }
-                    System.out.println("Không tìm thấy khách hàng này !");
+                }
+                if (cus == null){
+                    System.out.println("Không tìm thấy khách hành này !");
+                    System.out.print("Nhập lại: ");
                     continue;
                 }
                 break;
-            } catch (NumberFormatException e) {
+            } catch (InputMismatchException e) {
                 e.printStackTrace();
                 System.out.print("Nhập lại: ");
                 continue;
@@ -42,11 +49,14 @@ public class BookSavingService {
                         bak = b;
                         break;
                     }
+                }
+                if (bak == null){
                     System.out.println("Không tìm thấy ngân hàng này !");
+                    System.out.print("Nhập lại: ");
                     continue;
                 }
                 break;
-            } catch (NumberFormatException e) {
+            } catch (InputMismatchException e) {
                 e.printStackTrace();
                 System.out.print("Nhập lại: ");
                 continue;
@@ -74,7 +84,7 @@ public class BookSavingService {
             try {
                 deposit = new Scanner(System.in).nextLong();
                 break;
-            } catch (NumberFormatException e) {
+            } catch (InputMismatchException e) {
                 e.printStackTrace();
                 System.out.print("Nhập lại");
                 continue;
@@ -83,5 +93,36 @@ public class BookSavingService {
 
         bookSavings.add(new BookSaving(cus, bak, deposit));
     }
-    
+
+    public void displayList(ArrayList<BookSaving> bookSavings){
+        try {
+            for (BookSaving b : bookSavings){
+                System.out.println(b);
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void sortByName(ArrayList<BookSaving> bookSavings){
+        Collections.sort(bookSavings, new BookSavingCompareByName());
+        try {
+            for (BookSaving b : bookSavings){
+                System.out.println(b);
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void sortByDeposit(ArrayList<BookSaving> bookSavings){
+        Collections.sort(bookSavings, new BookSavingCompareByDeposit());
+        try {
+            for (BookSaving b : bookSavings){
+                System.out.println(b);
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 }

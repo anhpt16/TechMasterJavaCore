@@ -1,7 +1,3 @@
-package entities;
-
-import utils.CustomerType;
-
 public class Customer {
     private int id;
     private String name;
@@ -51,7 +47,7 @@ public class Customer {
         this.phoneNumber = phoneNumber;
     }
 
-    public CustomerType getType() {
+    public Enum getType() {
         return type;
     }
 
@@ -66,7 +62,7 @@ public class Customer {
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", type=" + type.value +
+                ", type=" + type +
                 '}';
     }
 }

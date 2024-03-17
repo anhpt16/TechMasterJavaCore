@@ -34,4 +34,13 @@ public class BookSaving {
     public void setDeposit(long deposit) {
         this.deposit = deposit;
     }
+
+    @Override
+    public String toString() {
+        return "BookSaving{" +
+                "customer=" + customer +
+                ", bank=" + bank +
+                ", deposit=" + deposit +
+                '}';
+    }
 }

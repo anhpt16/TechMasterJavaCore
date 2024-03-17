@@ -1,6 +1,7 @@
 package utils;
 
 import MyException.InvalidPhoneException;
+import MyException.InvalidPositiveNumber;
 
 public class Validation {
     public static boolean checkPhoneNumber(String phoneNumber) throws InvalidPhoneException {
@@ -13,4 +14,10 @@ public class Validation {
         return true;
     }
 
+    public static boolean checkPositiveNumber(int number) throws InvalidPositiveNumber {
+        if (number < 0){
+            throw new InvalidPositiveNumber("Số nhập vào phải là số nguyên dương !");
+        }
+        return true;
+    }
 }
