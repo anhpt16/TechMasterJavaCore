@@ -22,4 +22,8 @@ public class Bill {
     public Ministration getMinistration() {
         return ministration;
     }
+
+    public void display(){
+        System.out.printf("|%-30s|%-30s|%-10d|%-15s|\n", customer.getName(), ministration.getName(), amount, date);
+    }
 }

@@ -18,6 +18,10 @@ public class Ministration {
         return id;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void display(){
         System.out.printf("|%-6d|%-30s|%-20d|%-10s|\n", id, name, rate, unit);
     }

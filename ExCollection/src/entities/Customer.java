@@ -22,6 +22,10 @@ public class Customer {
         return id;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void display(){
         System.out.printf("|%-6d|%-30s|%-30s|%-15s|%-20s|\n", id, name, address, phoneNumber, customerType.value);
     }

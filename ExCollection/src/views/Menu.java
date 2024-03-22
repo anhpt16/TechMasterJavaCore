@@ -3,6 +3,7 @@ package views;
 import entities.Bill;
 import entities.Customer;
 import entities.Ministration;
+import services.BillService;
 import services.CustomerService;
 import services.MinistrationService;
 import utils.InputCheck;
@@ -11,11 +12,14 @@ import utils.Constant;
 import java.util.ArrayList;
 
 public class Menu {
-    public void startMenu(ArrayList<Customer> customers, ArrayList<Ministration> ministrations, ArrayList<Bill> bills){
-        CustomerService customerService = CustomerService.getInstance();
-        MinistrationService ministrationService = MinistrationService.getInstance();
+    CustomerService customerService = CustomerService.getInstance();
+    MinistrationService ministrationService = MinistrationService.getInstance();
+    BillService billService = BillService.getInstance();
 
-        InputCheck inputCheck = InputCheck.getInstance();
+    InputCheck inputCheck = InputCheck.getInstance();
+
+    public void startMenu(ArrayList<Customer> customers, ArrayList<Ministration> ministrations, ArrayList<Bill> bills){
+
 
         int choice;
         do {
@@ -47,8 +51,10 @@ public class Menu {
                     ministrationService.displayList(ministrations);
                     break;
                 case Constant.INPUT_LIST_BILL:
+                    billService.inputInfo(customers, ministrations, bills);
                     break;
                 case Constant.DISPLAY_LIST_BILL:
+                    billService.displayList(bills);
                     break;
                 case Constant.SORT_BILL_NAME:
                     break;
@@ -64,7 +70,26 @@ public class Menu {
         } while(true);
     }
 
-    public void menuBill(ArrayList<Customer> customers, ArrayList<Ministration> ministrations, ArrayList<Bill> bills){
+//    public void menuBill(){
+//        int choice;
+//        do {
+//            System.out.println("1. Tiếp tục nhập");
+//            System.out.println("2. Chuyển sang khách hàng khác");
+//            System.out.println("3. Quay lại menu");
+//            System.out.print("Chọn: ");
+//            choice = inputCheck.checkIntInput(1,3);
+//
+//            switch (choice){
+//                case 1:
+//                    break;
+//                case 2:
+//                    break;
+//                case 3:
+//                    return;
+//                default:
+//                    break;
+//            }
+//        } while();
+//    }
 
-    }
 }
