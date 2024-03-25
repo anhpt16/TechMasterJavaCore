@@ -17,13 +17,14 @@ public class TaskTableService extends GeneralService implements ITaskTableServic
             instance = new TaskTableService();
         return instance;
     }
+    Menu menu = new Menu();
 
     StaffService staffService = StaffService.getInstance();
     PositionService positionService = PositionService.getInstance();
 
     @Override
     public void inputInfo(ArrayList<Staff> staffs, ArrayList<Position> positions, ArrayList<TaskTable> taskTables) {
-        Menu menu = new Menu();
+
         if (!inputCheck.checkNullArrayList(staffs, "Staff", "TaskTableService.inputInfo")
         || !inputCheck.checkNullArrayList(positions, "Position", "TaskTableService.inputInfo")
         || !inputCheck.checkNullArrayList(taskTables, "TaskTable", "TaskTableService.inputInfo"))
