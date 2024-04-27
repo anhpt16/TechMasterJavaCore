@@ -16,18 +16,23 @@ public abstract class Ghost {
     protected ImageIcon ghostImage;
     protected GhostState currentState;
     protected int speed;
-
+    protected int[] revivalArea;
     /* Các state */
     protected Timer timer = new Timer();
     protected GhostState defaultState;
     protected GhostState scatteredState;
     protected GhostState fearState;
     protected GhostState deadState;
+    protected boolean isFear;
     /* Kiểu di chuyển */
     protected GhostMovement ghostMovement;
     protected ArrayList<int[]> path;
     protected int direction;
     protected ArrayList<int[]> nodeBack; // lưu trữ node back
+    /* Tọa độ ô góc */
+    protected int[] nodeCorner; // lưu trữ hai ô góc của trạng thái state
+    protected boolean nodeCornerFirst = true;
+    protected boolean nodeCornerSecond = false;
 
     public Ghost(int x, int y, ImageIcon ghostImage, Pacman pacman, Board board) {
         this.x = x;
@@ -38,6 +43,16 @@ public abstract class Ghost {
         this.ghostMovement = new GhostMovement(board, this);
         this.direction = -1;
         this.nodeBack = new ArrayList<>();
+        nodeCorner = new int[2];
+        revivalArea = new int[2];
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public void setGhostImage(ImageIcon ghostImage) {
+        this.ghostImage = ghostImage;
     }
 
     public int getDirection() {
@@ -46,6 +61,26 @@ public abstract class Ghost {
 
     public void setDirection(int direction) {
         this.direction = direction;
+    }
+
+    public int[] getNodeCorner() {
+        return nodeCorner;
+    }
+
+    public boolean isNodeCornerFirst() {
+        return nodeCornerFirst;
+    }
+
+    public void setNodeCornerFirst(boolean nodeCornerFirst) {
+        this.nodeCornerFirst = nodeCornerFirst;
+    }
+
+    public boolean isNodeCornerSecond() {
+        return nodeCornerSecond;
+    }
+
+    public void setNodeCornerSecond(boolean nodeCornerSecond) {
+        this.nodeCornerSecond = nodeCornerSecond;
     }
 
     public int[] getNodeBack(){
@@ -110,5 +145,31 @@ public abstract class Ghost {
         this.path = path;
     }
 
+    public Timer getTimer() {
+        return timer;
+    }
+
+    public int[] getRevivalArea() {
+        return revivalArea;
+    }
+
+    public boolean isFearState(){
+        if (currentState == fearState){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isDeadState(){
+        if (currentState == deadState){
+            return true;
+        }
+        return false;
+    }
+
+
+    public void setDefaultState(){}
+    public void setFearState(){}
+    public void setDeadState(){}
     public void move(){};
 }

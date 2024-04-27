@@ -1,7 +1,4 @@
-import entities.Blinky;
-import entities.Board;
-import entities.Ghost;
-import entities.Pacman;
+import entities.*;
 import utils.Constant;
 
 import javax.swing.*;
@@ -17,6 +14,7 @@ public class PacmanGame extends JPanel implements KeyListener {
     private int[][] matrix;
     private Pacman pacman;
     private Ghost blinky;
+    private Ghost inky;
     int[][] level = Constant.BOARD_LEVEL_1;
 
     /* Các biến sử dụng trong hàm inputProcess() */
@@ -39,6 +37,7 @@ public class PacmanGame extends JPanel implements KeyListener {
         pacman.start();
         /* Tạo Ghost với tọa độ ban đầu*/
         blinky = new Blinky(Constant.GHOST_START_POSITION_X, Constant.GHOST_START_POSITION_Y, Constant.BLINKY, pacman, board);
+        inky = new Inky(Constant.GHOST_START_POSITION_X, Constant.GHOST_START_POSITION_Y, Constant.INKY, pacman, board);
     }
 
     /* Vẽ hình ảnh entities.Pacman */
@@ -155,8 +154,8 @@ public class PacmanGame extends JPanel implements KeyListener {
     }
 
     /* Cập nhật vị trí khi nhấn phím */
-    public void updatePacmanDirection(Pacman pacman, int x, int y) {
-        turnAllowed = checkPosition(x, y);
+    public void updatePacmanDirection(Pacman pacman) {
+        turnAllowed = checkPosition(pacman.getX(), pacman.getY());
         if (directionCommand == Constant.RIGHT && turnAllowed[Constant.RIGHT]) {
             pacman.setDirection(Constant.RIGHT);
         } else if (directionCommand == Constant.LEFT && turnAllowed[Constant.LEFT]) {
@@ -169,7 +168,9 @@ public class PacmanGame extends JPanel implements KeyListener {
     }
 
     /* Cập nhật vị trí của Pacman */
-    public void updatePacmanPosition(Pacman pacman, int x, int y) {
+    public void updatePacmanPosition(Pacman pacman) {
+        int x = pacman.getX();
+        int y = pacman.getY();
         turnAllowed = checkPosition(x, y);
         if (pacman.getDirection() == Constant.RIGHT && turnAllowed[Constant.RIGHT]) {
             x += pacman.getPACMAN_SPEED();
@@ -188,13 +189,65 @@ public class PacmanGame extends JPanel implements KeyListener {
 //            pacman.stopAnimation();
 //        }
     }
-
-    /* Cập nhật điểm số của Pacman */
-    public void updatePacmanScore(Pacman pacman, int x, int y) {
+    /* Cập nhật khi pacman ăn viên thuốc */
+    public void updatePacmanCapsule(Pacman pacman){
         int deviation = 0; // Độ lệch
         /* Vị trí trung tâm của ảnh */
-        int centerX = x + (Constant.PACMAN_SIZE / 2);
-        int centerY = y + (Constant.PACMAN_SIZE / 2);
+        int centerX = pacman.getX() + (Constant.PACMAN_SIZE / 2);
+        int centerY = pacman.getY() + (Constant.PACMAN_SIZE / 2);
+        if (pacman.getDirection() == Constant.LEFT || pacman.getDirection() == Constant.RIGHT) {
+            if (centerX % Constant.TILE == (Constant.TILE / 2) - deviation || centerX % Constant.TILE == (Constant.TILE / 2) + deviation) {
+                if (matrix[centerY / Constant.TILE][centerX / Constant.TILE] == Constant.CAPSULE) {
+                    board.setNewValue(centerY / Constant.TILE, centerX / Constant.TILE, Constant.SPACE);
+                    pacman.gainPoint(Constant.SCORE_CAPSULE);
+                    blinky.getTimer().cancel();
+                    blinky.setFearState();
+                    inky.getTimer().cancel();
+                    inky.setFearState();
+                }
+            }
+        }
+        if (pacman.getDirection() == Constant.UP || pacman.getDirection() == Constant.DOWN) {
+            if (centerY % Constant.TILE == (Constant.TILE / 2) - deviation || centerY % Constant.TILE == (Constant.TILE / 2) + deviation) {
+                if (matrix[centerY / Constant.TILE][centerX / Constant.TILE] == Constant.CAPSULE) {
+                    board.setNewValue(centerY / Constant.TILE, centerX / Constant.TILE, Constant.SPACE);
+                    pacman.gainPoint(Constant.SCORE_CAPSULE);
+                    blinky.getTimer().cancel();
+                    blinky.setFearState();
+                    inky.getTimer().cancel();
+                    inky.setFearState();
+                }
+            }
+        }
+    }
+    /* Kiểm tra va chạm giữa pacman và ghost */
+    public void checkCollision(Pacman pacman, Ghost ghost){
+        if (Math.abs(pacman.getX() - ghost.getX()) < 20 && Math.abs(pacman.getY() - ghost.getY()) < 20 ){
+            if (ghost.isFearState()){
+                System.out.println("Pacman ăn ghost");
+                ghost.setDeadState();
+                pacman.gainPoint(Constant.SCORE_GHOST);
+            }
+            else if (!ghost.isFearState() && !ghost.isDeadState()){
+                System.out.println("Ghost ăn pacman");
+                if (pacman.getLife() > 0){
+                    pacman.die();
+
+                }
+                else {
+                    System.exit(0);
+                }
+                System.exit(0);
+            }
+        }
+    }
+
+    /* Cập nhật điểm số của Pacman */
+    public void updatePacmanScore(Pacman pacman) {
+        int deviation = 0; // Độ lệch
+        /* Vị trí trung tâm của ảnh */
+        int centerX = pacman.getX() + (Constant.PACMAN_SIZE / 2);
+        int centerY = pacman.getY() + (Constant.PACMAN_SIZE / 2);
         if (pacman.getDirection() == Constant.LEFT || pacman.getDirection() == Constant.RIGHT) {
             if (centerX % Constant.TILE == (Constant.TILE / 2) - deviation || centerX % Constant.TILE == (Constant.TILE / 2) + deviation) {
                 if (matrix[centerY / Constant.TILE][centerX / Constant.TILE] == Constant.FOOD) {
@@ -212,6 +265,17 @@ public class PacmanGame extends JPanel implements KeyListener {
             }
         }
     }
+    /* Kiểm tra điều kiện thắng */
+    public void checkWin(){
+        for (int i = 0; i < level.length ; i++) {
+            for (int j = 0; j < level[0].length; j++) {
+                if (level[i][j] == 1){
+                    return;
+                }
+            }
+        }
+        System.exit(0);
+    }
 
     /* Vẽ điểm số */
     public void drawScore(Graphics g) {
@@ -226,14 +290,14 @@ public class PacmanGame extends JPanel implements KeyListener {
     }
 
     /* Vẽ đường đi của Ghost */
-    public void drawGhostPath(Ghost ghost, Graphics g) {
+    public void drawGhostPath(Ghost ghost, Color color ,Graphics g) {
         ArrayList<int[]> path = ghost.getPath();
         for (int i = 0; i < path.size() - 1; i++) {
             int x1 = path.get(i)[1];
             int y1 = path.get(i)[0];
             int x2 = path.get(i + 1)[1];
             int y2 = path.get(i + 1)[0];
-            g.setColor(Color.RED);
+            g.setColor(color);
             g.drawLine(x1, y1, x2, y2);
 
         }
@@ -241,10 +305,15 @@ public class PacmanGame extends JPanel implements KeyListener {
 
     /* Cập nhật trạng thái cho trò chơi */
     public void updateGame() {
-        updatePacmanDirection(pacman, pacman.getX(), pacman.getY());
-        updatePacmanPosition(pacman, pacman.getX(), pacman.getY());
-        updatePacmanScore(pacman, pacman.getX(), pacman.getY());
+        updatePacmanDirection(pacman);
+        updatePacmanPosition(pacman);
+        updatePacmanCapsule(pacman);
+        updatePacmanScore(pacman);
+        checkCollision(pacman, blinky);
+        checkCollision(pacman, inky);
         blinky.move();
+        inky.move();
+        checkWin();
     }
 
     /* Kết xuất hình ảnh cho trò chơi */
@@ -259,7 +328,9 @@ public class PacmanGame extends JPanel implements KeyListener {
         board.paintBoard(g);
         drawPacman(g);
         g.drawImage(blinky.getGhostImage().getImage(), blinky.getX(), blinky.getY(), null);
-        drawGhostPath(blinky, g);
+        g.drawImage(inky.getGhostImage().getImage(), inky.getX(), inky.getY(), null);
+        drawGhostPath(blinky, Color.RED ,g);
+        drawGhostPath(inky, Color.WHITE ,g);
         drawScore(g);
 //        board.paintGrid(g);
 

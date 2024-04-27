@@ -19,4 +19,6 @@ public abstract class GhostState {
     public long getSeconds() {
         return seconds;
     }
+
+    public void startState(){}
 }

@@ -13,6 +13,7 @@ public class Pacman extends Thread {
     private int life;
     private int score = 0;
     private int direction;
+    private boolean isEatenGhost;
 
     public Pacman(int x, int y, ArrayList<ImageIcon> frames) {
         this.x = x;
@@ -76,6 +77,14 @@ public class Pacman extends Thread {
 
     public void die() {
         this.life -= 1;
+        try {
+            sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        x = Constant.PACMAN_START_POSITION_X;
+        y = Constant.PACMAN_START_POSITION_Y;
+        System.out.println(life);
     }
 
     public ImageIcon getCurrentFrame() {
@@ -88,6 +97,10 @@ public class Pacman extends Thread {
 
     public void runAnimation() {
         this.runAnimation = true;
+    }
+
+    public void setEatenGhost(boolean isEatenGhost){
+        this.isEatenGhost = isEatenGhost;
     }
 
     @Override

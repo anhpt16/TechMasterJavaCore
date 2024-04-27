@@ -18,34 +18,43 @@ public class AStar {
         /* Các biến sử dụng */
         int g, h, f;
         ArrayList<int[]> listNode = new ArrayList<>();
-        if (matrix[pointX + 1][pointY] < 3){
-            g = 1 + g0;
-            h = Math.abs(targetX - (pointX + 1)) + Math.abs(targetY - pointY);
-            f = g + h;
+        if ((pointX + 1) >= 0 && (pointX + 1) <= (matrix.length - 1) && pointY >= 0 && pointY <= (matrix[0].length - 1)){
+            if (matrix[pointX + 1][pointY] < 3){
+                g = 1 + g0;
+                h = Math.abs(targetX - (pointX + 1)) + Math.abs(targetY - pointY);
+                f = g + h;
 //            System.out.println("[" + (pointX + 1) + "][" + pointY + "]\t" + "g: " + g + ", h: " + h + " ,f: " + f);
-            listNode.add(new int[]{pointX + 1, pointY, g, h, f, pointX, pointY});
+                listNode.add(new int[]{pointX + 1, pointY, g, h, f, pointX, pointY});
+            }
         }
-        if (matrix[pointX - 1][pointY] < 3){
-            g = 1 + g0;
-            h = Math.abs(targetX - (pointX - 1)) + Math.abs(targetY - pointY);
-            f = g + h;
+        if ((pointX - 1) >= 0 && (pointX - 1) <= (matrix.length - 1) && pointY >= 0 && pointY <= (matrix[0].length - 1)){
+            if (matrix[pointX - 1][pointY] < 3){
+                g = 1 + g0;
+                h = Math.abs(targetX - (pointX - 1)) + Math.abs(targetY - pointY);
+                f = g + h;
 //            System.out.println("[" + (pointX - 1) + "][" + pointY + "]\t" + "g: " + g + ", h: " + h + " ,f: " + f);
-            listNode.add(new int[]{pointX - 1, pointY, g, h, f, pointX, pointY});
+                listNode.add(new int[]{pointX - 1, pointY, g, h, f, pointX, pointY});
+            }
         }
-        if (matrix[pointX][pointY + 1] < 3){
-            g = 1 + g0;
-            h = Math.abs(targetX - pointX) + Math.abs(targetY - (pointY + 1));
-            f = g + h;
+        if (pointX >= 0 && pointX <= (matrix.length - 1) && (pointY + 1) >= 0 && (pointY + 1) <= (matrix[0].length - 1)){
+            if (matrix[pointX][pointY + 1] < 3){
+                g = 1 + g0;
+                h = Math.abs(targetX - pointX) + Math.abs(targetY - (pointY + 1));
+                f = g + h;
 //            System.out.println("[" + pointX + "][" + (pointY + 1) + "]\t" + "g: " + g + ", h: " + h + " ,f: " + f);
-            listNode.add(new int[]{pointX, pointY + 1, g, h, f, pointX, pointY});
+                listNode.add(new int[]{pointX, pointY + 1, g, h, f, pointX, pointY});
+            }
         }
-        if (matrix[pointX][pointY - 1] < 3){
-            g = 1 + g0;
-            h = Math.abs(targetX - pointX) + Math.abs(targetY - (pointY - 1));
-            f = g + h;
+        if (pointX >= 0 && pointX <= (matrix.length - 1) && (pointY - 1) >= 0 && (pointY - 1) <= (matrix[0].length - 1)){
+            if (matrix[pointX][pointY - 1] < 3){
+                g = 1 + g0;
+                h = Math.abs(targetX - pointX) + Math.abs(targetY - (pointY - 1));
+                f = g + h;
 //            System.out.println("[" + pointX + "][" + (pointY - 1) + "]\t" + "g: " + g + ", h: " + h + " ,f: " + f);
-            listNode.add(new int[]{pointX, pointY - 1, g, h, f, pointX, pointY});
+                listNode.add(new int[]{pointX, pointY - 1, g, h, f, pointX, pointY});
+            }
         }
+
         return listNode;
     }
 
@@ -104,7 +113,7 @@ public class AStar {
         return bestPath;
     }
 
-    public ArrayList<int[]> searchPath(Ghost ghost, int pacmanX, int pacmanY, int direction){
+    public ArrayList<int[]> searchPath(Ghost ghost, int pacmanX, int pacmanY){
         /* Chuyển đổi tọa độ sang chỉ số trong ma trận */
         /*
          * vector: (X, Y) --> index: [Y/size][X/size]

@@ -19,48 +19,80 @@ public class AlgorithmSearch {
         /* Vị trí hiện tại của Pacman trong ma trận */
         int indexPacX = (pacman.getY() - ((Constant.TILE - Constant.PACMAN_SIZE) / 2)) / Constant.TILE; //--> hàng
         int indexPacY = (pacman.getX() - ((Constant.TILE - Constant.PACMAN_SIZE) / 2)) / Constant.TILE; //--> cột
-        /* Các điểm giới hạn khi duyệt ma trận */
-        int topPoint = indexPacX - 4;
-        int bottomPoint = indexPacX + 4;
-        int rightPoint = indexPacY + 4;
-        int leftPoint = indexPacY - 4;
-        if (topPoint < 0){
-            topPoint = 0;
-        }
-        if (bottomPoint > (matrix.length - 1)){
-            bottomPoint = matrix.length - 1;
-        }
-        if (rightPoint > (matrix[0].length - 1)){
-            rightPoint = matrix[0].length - 1;
-        }
-        if (leftPoint < 0){
-            leftPoint = 0;
-        }
         /* Tìm vị trí dựa trên hướng di chuyển của Pacman */
         if (pacman.getDirection() == Constant.RIGHT){
-            for (int i = indexPacX + 4; i >= indexPacX; i--) {
-
-                if (matrix[i][indexPacY] < 3){
-                    result[0] = (indexPacX * Constant.TILE) + ((Constant.TILE - Constant.PACMAN_SIZE) / 2);
-                    result[1] = (i * Constant.TILE) + ((Constant.TILE - Constant.PACMAN_SIZE) / 2);
+            for (int i = 0; i <= 4; i++) {
+                if ((indexPacX - i) >= 0 && (indexPacX - i) <= (matrix.length - 1) && (indexPacY + 4 - i) >= 0  && (indexPacY + 4 - i) <= (matrix[0].length - 1)){
+                    if (matrix[indexPacX - i][indexPacY + 4 - i] < 3){
+                        result[0] = ((indexPacY + 4 - i) * Constant.TILE) + ((Constant.TILE - Constant.GHOST_SIZE) / 2);
+                        result[1] = ((indexPacX - i) * Constant.TILE) + ((Constant.TILE - Constant.GHOST_SIZE) / 2);
+                        return result;
+                    }
+                }
+                if ((indexPacX + i) <= (matrix.length - 1) && (indexPacX + i) >= 0 && (indexPacY + 4 - i) < (matrix[0].length - 1) && (indexPacY + 4 - i) >= 0){
+                    if (matrix[indexPacX + 1][indexPacY + 4 - i] < 3){
+                        result[0] = ((indexPacY + 4 - i) * Constant.TILE) + ((Constant.TILE - Constant.GHOST_SIZE) / 2);
+                        result[1] = ((indexPacX + 1) * Constant.TILE) + ((Constant.TILE - Constant.GHOST_SIZE) / 2);
+                        return result;
+                    }
                 }
             }
         }
         else if (pacman.getDirection() == Constant.LEFT){
-            for (int i = indexPacY - 4; i >= indexPacY; i--) {
-                if (matrix[indexPacX][i] < 3){
-                    result[0] = (i * Constant.TILE) + ((Constant.TILE - Constant.PACMAN_SIZE) / 2);
-                    result[1] = (indexPacX * Constant.TILE) + ((Constant.TILE - Constant.PACMAN_SIZE) / 2);
+            for (int i = 0; i <= 4; i++) {
+                if ((indexPacX - i) >= 0 && (indexPacX - i) <= (matrix.length - 1) && (indexPacY - 4 + i) <= (matrix[0].length - 1) && (indexPacY - 4 + i) >= 0){
+                    if (matrix[indexPacX - i][indexPacY - 4 + i] < 3){
+                        result[0] = ((indexPacY - 4 + i) * Constant.TILE) + ((Constant.TILE - Constant.GHOST_SIZE) / 2);
+                        result[1] = ((indexPacX - i) * Constant.TILE) + ((Constant.TILE - Constant.GHOST_SIZE) / 2);
+                        return result;
+                    }
+                }
+                if ((indexPacX + i) >= 0 && (indexPacX + i) <= (matrix.length - 1) && (indexPacY - 4 + i) >= 0 && (indexPacY - 4 + i) <= (matrix[0].length - 1)){
+                    if (matrix[indexPacX + i][indexPacY - 4 + i] < 3){
+                        result[0] = ((indexPacY - 4 + i) * Constant.TILE) + ((Constant.TILE - Constant.GHOST_SIZE) / 2);
+                        result[1] = ((indexPacX + i) * Constant.TILE) + ((Constant.TILE - Constant.GHOST_SIZE) / 2);
+                        return result;
+                    }
                 }
             }
         }
         else if (pacman.getDirection() == Constant.UP){
-
+            for (int i = 0; i <= 4; i++) {
+                if ((indexPacX - 4 + i) >= 0 && (indexPacX - 4 + i) <= (matrix.length - 1) && (indexPacY - i) >= 0 && (indexPacY - i) <= (matrix[0].length - 1)){
+                    if (matrix[indexPacX - 4 + i][indexPacY - i] < 3){
+                        result[0] = ((indexPacY - i) * Constant.TILE) + ((Constant.TILE - Constant.GHOST_SIZE) / 2);
+                        result[1] = ((indexPacX - 4 + i) * Constant.TILE) + ((Constant.TILE - Constant.GHOST_SIZE) / 2);
+                        return result;
+                    }
+                }
+                if ((indexPacX - 4 + i) >= 0 && (indexPacX - 4 + i) <= (matrix.length - 1) && (indexPacY + i) >= 0 && (indexPacY + i) <= (matrix[0].length - 1)){
+                    if (matrix[indexPacX - 4 + i][indexPacY + i] < 3){
+                        result[0] = ((indexPacY + i) * Constant.TILE) + ((Constant.TILE - Constant.GHOST_SIZE) / 2);
+                        result[1] = ((indexPacX - 4 + i) * Constant.TILE) + ((Constant.TILE - Constant.GHOST_SIZE) / 2);
+                        return result;
+                    }
+                }
+            }
         }
         else if (pacman.getDirection() == Constant.DOWN){
-
+            for (int i = 0; i <= 4; i++) {
+                if ((indexPacX + 4 - i) >= 0 && (indexPacX + 4 - i) <= (matrix.length - 1) && (indexPacY - i) >= 0 && (indexPacY - i) <= (matrix[0].length - 1)){
+                    if (matrix[indexPacX + 4 - i][indexPacY - i] < 3){
+                        result[0] = ((indexPacY - i) * Constant.TILE) + ((Constant.TILE - Constant.GHOST_SIZE) / 2);
+                        result[1] = ((indexPacX + 4 - i) * Constant.TILE) + ((Constant.TILE - Constant.GHOST_SIZE) / 2);
+                        return result;
+                    }
+                }
+                if ((indexPacX + 4 - i) >= 0 && (indexPacX + 4 - i) <= (matrix.length - 1) && (indexPacY + i) >= 0 && (indexPacY + i) <= (matrix[0].length - 1)){
+                    if (matrix[indexPacX + 4 - i][indexPacY + i] < 3){
+                        result[0] = ((indexPacY + i) * Constant.TILE) + ((Constant.TILE - Constant.GHOST_SIZE) / 2);
+                        result[1] = ((indexPacX + 4 - i) * Constant.TILE) + ((Constant.TILE - Constant.GHOST_SIZE) / 2);
+                        return result;
+                    }
+                }
+            }
         }
-        return result;
+        return null;
     }
 
     public int[] searchAroundPoint(Pacman pacman, int count){

@@ -15,8 +15,8 @@ public class Constant {
     public static final long TARGET_TIME = 1000 / FPS;
     public static int PACMAN_START_POSITION_X = 314;
     public static int PACMAN_START_POSITION_Y = 50;
-    public static int GHOST_START_POSITION_X = 650;
-    public static int GHOST_START_POSITION_Y = 218;
+    public static int GHOST_START_POSITION_X = 362;
+    public static int GHOST_START_POSITION_Y = 362;
     /* Tạo hoạt ảnh cho Pacman */
     public static final ArrayList<ImageIcon> PACMAN_ANIMATION = new ArrayList<>(Arrays.asList(
             new ImageIcon("F:\\TechMasterJavaCore\\GamePacman\\src\\imageplayer\\1.png"),
@@ -31,7 +31,8 @@ public class Constant {
     public static final ImageIcon CYCLE = new ImageIcon("F:\\TechMasterJavaCore\\GamePacman\\src\\imageghost\\orange.png");
     public static final ImageIcon DEAD = new ImageIcon("F:\\TechMasterJavaCore\\GamePacman\\src\\imageghost\\dead.png");
     public static final ImageIcon SCARED = new ImageIcon("F:\\TechMasterJavaCore\\GamePacman\\src\\imageghost\\powerup.png");
-    public static final int SPEED_DEFAULT = 1;
+    public static final int SPEED_FEAR = 1;
+    public static final int SPEED_DEFAULT = 2;
     public static final int GHOST_SIZE = 20;
     /* Pacman */
     public static final int PACMAN_SIZE = 20;
@@ -70,7 +71,7 @@ public class Constant {
             {3, 7, 4, 4, 4, 4, 5, 1, 3, 7, 4, 4, 5, 0, 3, 3, 0, 6, 4, 4, 8, 3, 1, 6, 4, 4, 4, 4, 8, 3},
             {3, 0, 0, 0, 0, 0, 3, 1, 3, 6, 4, 4, 8, 0, 7, 8, 0, 7, 4, 4, 5, 3, 1, 3, 0, 0, 0, 0, 0, 3},
             {3, 0, 0, 0, 0, 0, 3, 1, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 1, 3, 0, 0, 0, 0, 0, 3},
-            {8, 0, 0, 0, 0, 0, 3, 1, 3, 3, 0, 6, 4, 4, 9, 9, 4, 4, 5, 0, 3, 3, 1, 3, 0, 0, 0, 0, 0, 7},
+            {8, 0, 0, 0, 0, 0, 3, 1, 3, 3, 0, 6, 4, 4, 0, 0, 4, 4, 5, 0, 3, 3, 1, 3, 0, 0, 0, 0, 0, 7},
             {4, 4, 4, 4, 4, 4, 8, 1, 7, 8, 0, 3, 0, 0, 0, 0, 0, 0, 3, 0, 7, 8, 1, 7, 4, 4, 4, 4, 4, 4},
             {0, 0, 0, 0, 0, 0, 3, 1, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 1, 3, 0, 0, 0, 0, 0, 0},
             {4, 4, 4, 4, 4, 4, 5, 1, 6, 5, 0, 3, 0, 0, 0, 0, 0, 0, 3, 0, 6, 5, 1, 6, 4, 4, 4, 4, 4, 4},

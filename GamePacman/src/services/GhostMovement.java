@@ -13,17 +13,19 @@ public class GhostMovement {
     private AStar aStar;
     private Board board;
     private Ghost ghost;
+    private AlgorithmSearch algorithmSearch;
 
     public GhostMovement(Board board, Ghost ghost) {
         this.aStar = new AStar(board.getBoard());
         this.board = board;
         this.ghost = ghost;
+        this.algorithmSearch = new AlgorithmSearch(board.getBoard());
     }
 
     /* Lấy ra đường dẫn */
-    public ArrayList<int[]> getPath(Ghost ghost, Pacman pacman){
+    public ArrayList<int[]> getPath(Ghost ghost, int pacX, int pacY){
         /* Lấy ra hướng di chuyển theo các chỉ số của ma trận */
-        ArrayList<int[]> path = aStar.searchPath(ghost, pacman.getX(), pacman.getY(), ghost.getDirection());
+        ArrayList<int[]> path = aStar.searchPath(ghost, pacX, pacY);
         ArrayList<int[]> filteredIndexPath = new ArrayList<>();
         int indexX = 0, indexY = 0;
         for (int i = 0; i < path.size(); i++) {
@@ -33,7 +35,7 @@ public class GhostMovement {
         }
         /* Thiết lập đường đi cho ghost */
         ghost.setPath(filteredIndexPath);
-        System.out.println("Filter index:  " + "[" + filteredIndexPath.get(1)[0] + "][" + filteredIndexPath.get(0)[0] + "]" + "[" + filteredIndexPath.get(1)[1] + "][" + filteredIndexPath.get(0)[1] + "]");
+//        System.out.println("Filter index:  " + "[" + filteredIndexPath.get(1)[0] + "][" + filteredIndexPath.get(0)[0] + "]" + "[" + filteredIndexPath.get(1)[1] + "][" + filteredIndexPath.get(0)[1] + "]");
 //        for (int[] node : path) {
 //            System.out.println("Node: (" + node[0] + ", " + node[1] + ")");
 //            System.out.println("g: " + node[2]);
@@ -79,45 +81,101 @@ public class GhostMovement {
         else if ((filteredIndexPath.get(1)[0] > filteredIndexPath.get(0)[0])){
             currentGhostY += ghostSpeed;
             ghost.setY(currentGhostY);
-            System.out.println("Y: " + currentGhostY);
+//            System.out.println("Y: " + currentGhostY);
         }
         else if ((filteredIndexPath.get(1)[0] < filteredIndexPath.get(0)[0])){
             currentGhostY -= ghostSpeed;
             ghost.setY(currentGhostY);
-            System.out.println("Y: " + currentGhostY);
+//            System.out.println("Y: " + currentGhostY);
         }
         else if ((filteredIndexPath.get(1)[1] > filteredIndexPath.get(0)[1])){
             currentGhostX += ghostSpeed;
             ghost.setX(currentGhostX);
-            System.out.println("X: " + currentGhostX);
+//            System.out.println("X: " + currentGhostX);
         }
         else if ((filteredIndexPath.get(1)[1] < filteredIndexPath.get(0)[1])){
             currentGhostX -= ghostSpeed;
             ghost.setX(currentGhostX);
-            System.out.println("X: " + currentGhostX);
+//            System.out.println("X: " + currentGhostX);
         }
-        System.out.println("[" + filteredIndexPath.get(1)[0] + "][" + filteredIndexPath.get(0)[0] + "]" + "[" + filteredIndexPath.get(1)[1] + "][" + filteredIndexPath.get(0)[1] + "]");
+//        System.out.println("[" + filteredIndexPath.get(1)[0] + "][" + filteredIndexPath.get(0)[0] + "]" + "[" + filteredIndexPath.get(1)[1] + "][" + filteredIndexPath.get(0)[1] + "]");
 //        System.out.println("x: " + ghost.getX() + ", y: " + ghost.getY());
-        System.out.println("---------");
+//        System.out.println("---------");
     }
 
     public void chasePacman(Pacman pacman){
-        ArrayList<int[]> path = getPath(ghost, pacman);
+        ArrayList<int[]> path = getPath(ghost, pacman.getX(), pacman.getY());
         move(path);
     }
     public void blockHeadPacman(Pacman pacman){
-        AlgorithmSearch algorithmSearch = new AlgorithmSearch(board.getBoard());
+        /* Lấy ra 4 điểm trước mặt Pacman */
         int[] point = algorithmSearch.searchFourthPoint(pacman);
-//        move(ghost.getX(), ghost.getY(), point[0], point[1], ghost.getSpeed());
-    }
-    public void dodgePacman(Pacman pacman){
+        if (point != null){
+            /* Lấy ra đường dẫn từ ghost tới điểm đó */
+            ArrayList<int[]> path = getPath(ghost, point[0], point[1]);
+            move(path);
+        }
 
+    }
+    public void dodgePacman(){
+        ArrayList<int[]> path;
+        /* Lấy ra node góc */
+        int[] nodeCorner = ghost.getNodeCorner();
+        /* Trạng thái di chuyển */
+        boolean nodeCornerFirst = ghost.isNodeCornerFirst();
+        boolean nodeCornerSecond = ghost.isNodeCornerSecond();
+
+        if (nodeCornerFirst){
+            path = getPath(ghost, nodeCorner[0], nodeCorner[1]);
+            move(path);
+        }
+        if (nodeCornerSecond){
+            path = getPath(ghost, nodeCorner[0] + (Constant.TILE * 2), nodeCorner[1]);
+            move(path);
+        }
+
+        if (ghost.getX() == nodeCorner[0] && ghost.getY() == nodeCorner[1]){
+            ghost.setNodeCornerFirst(false);
+            ghost.setNodeCornerSecond(true);
+        }
+        else if (ghost.getX() == (nodeCorner[0] + (Constant.TILE * 2)) && ghost.getY() == nodeCorner[1]){
+            ghost.setNodeCornerFirst(true);
+            ghost.setNodeCornerSecond(false);
+        }
     }
     public void moveToCorner(){
+        ArrayList<int[]> path;
+        /* Lấy ra node góc */
+        int[] nodeCorner = ghost.getNodeCorner();
+        /* Trạng thái di chuyển */
+        boolean nodeCornerFirst = ghost.isNodeCornerFirst();
+        boolean nodeCornerSecond = ghost.isNodeCornerSecond();
 
+        if (nodeCornerFirst){
+            path = getPath(ghost, nodeCorner[0], nodeCorner[1]);
+            move(path);
+        }
+        if (nodeCornerSecond){
+            path = getPath(ghost, nodeCorner[0] + (Constant.TILE * 2), nodeCorner[1]);
+            move(path);
+        }
+
+        if (ghost.getX() == nodeCorner[0] && ghost.getY() == nodeCorner[1]){
+            ghost.setNodeCornerFirst(false);
+            ghost.setNodeCornerSecond(true);
+        }
+        else if (ghost.getX() == (nodeCorner[0] + (Constant.TILE * 2)) && ghost.getY() == nodeCorner[1]){
+            ghost.setNodeCornerFirst(true);
+            ghost.setNodeCornerSecond(false);
+        }
     }
     public void moveToGate(){
-
+        ArrayList<int[]> path;
+        /* Lấy ra vị trí hồi sinh */
+        int[] nodeRevival = ghost.getRevivalArea();
+        /* Trạng thái di chuyển */
+        path = getPath(ghost, nodeRevival[0], nodeRevival[1]);
+        move(path);
     }
 
     public static void main(String[] args) {

@@ -1,14 +1,16 @@
 package entities;
 
-import states.*;
+import states.DeadState;
+import states.DefaultState;
+import states.FearState;
+import states.ScatteredState;
 import utils.Constant;
 
 import javax.swing.*;
-import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Blinky extends Ghost {
+public class Inky extends Ghost{
     /* Hàm này được gọi để chuyển đổi state */
     private TimerTask switchState = new TimerTask() {
         @Override
@@ -66,22 +68,22 @@ public class Blinky extends Ghost {
         }
     };
 
-    public Blinky(int x, int y, ImageIcon ghostImage, Pacman pacman, Board board) {
+    public Inky(int x, int y, ImageIcon ghostImage, Pacman pacman, Board board) {
         super(x, y, ghostImage, pacman, board);
         speed = 2;
         /* Thiết lập vị trí hồi sinh cho Pacman */
-        revivalArea[0] = 338;
+        revivalArea[0] = 362;
         revivalArea[1] = 362;
         /* Khởi tạo các trạng thái cho Blinky */
         defaultState = new DefaultState(this, ghostImage, speed, 5);
         scatteredState = new ScatteredState(this, ghostImage, speed, 5);
-        fearState = new FearState(this,Constant.SPEED_FEAR, 6);
+        fearState = new FearState(this, Constant.SPEED_FEAR, 6);
         deadState = new DeadState(this, speed);
         /* Đặt trạng thái ban đầu của Blinky là trạng thái mặc định */
         currentState = defaultState;
         /* Khởi tạo node góc cho Blinky */
         nodeCorner[0] = 50;
-        nodeCorner[1] = 50;
+        nodeCorner[1] = 722;
         /* Bắt đầu bộ đếm */
         timer.schedule(switchState, defaultState.getSeconds() * 1000);
     }
@@ -89,13 +91,13 @@ public class Blinky extends Ghost {
     @Override
     public void setFearState() {
         super.setFearState();
-        /* Hủy bỏ lập lịch hiện tại và thực hiện một lập lịch mới */
         if (currentState == deadState){
             return;
         }
+        /* Hủy bỏ lập lịch hiện tại và thực hiện một lập lịch mới */
         timer.cancel();
         System.out.println("Hủy bỏ timer");
-        timer = new Timer();
+        timer = new java.util.Timer();
         /* Chuyển sang fear state */
         currentState = fearState;
         System.out.println("Chuyển sang fearState");
@@ -122,7 +124,6 @@ public class Blinky extends Ghost {
         super.setDefaultState();
         currentState = defaultState;
         defaultState.startState();
-        timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -149,8 +150,8 @@ public class Blinky extends Ghost {
         }
         /* Default State */
         else if (currentState == defaultState){
-            ghostMovement.chasePacman(pacman);
-//            ghostMovement.blockHeadPacman(pacman);
+//            ghostMovement.chasePacman(pacman);
+            ghostMovement.blockHeadPacman(pacman);
 //            ghostMovement.moveToCorner();
         }
     }
