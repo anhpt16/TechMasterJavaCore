@@ -84,6 +84,11 @@ public class Pacman extends Thread {
         }
         x = Constant.PACMAN_START_POSITION_X;
         y = Constant.PACMAN_START_POSITION_Y;
+        try {
+            sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         System.out.println(life);
     }
 

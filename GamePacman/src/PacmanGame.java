@@ -16,6 +16,7 @@ public class PacmanGame extends JPanel implements KeyListener {
     private Ghost blinky;
     private Ghost inky;
     int[][] level = Constant.BOARD_LEVEL_1;
+    private boolean isPaused = true;
 
     /* Các biến sử dụng trong hàm inputProcess() */
 //    private int direction = 0; // Biến này lưu trữ hướng di chuyển đúng của pacman
@@ -232,12 +233,10 @@ public class PacmanGame extends JPanel implements KeyListener {
                 System.out.println("Ghost ăn pacman");
                 if (pacman.getLife() > 0){
                     pacman.die();
-
                 }
                 else {
                     System.exit(0);
                 }
-                System.exit(0);
             }
         }
     }
@@ -284,11 +283,17 @@ public class PacmanGame extends JPanel implements KeyListener {
         g.drawString("Score: " + pacman.getScore(), 30, (matrix.length * Constant.TILE) + 50);
     }
 
+    /* Vẽ mạng */
+    public void drawLife(Graphics g){
+        g.setColor(Constant.TEXT_COLOR);
+        g.setFont(Constant.TEXT_FONT);
+        g.drawString("Life: " + pacman.getLife(), 200, (matrix.length * Constant.TILE) + 50);
+    }
+
     /* Xử lý đầu vào từ người chơi */
     public void processInput() {
 
     }
-
     /* Vẽ đường đi của Ghost */
     public void drawGhostPath(Ghost ghost, Color color ,Graphics g) {
         ArrayList<int[]> path = ghost.getPath();
@@ -303,22 +308,31 @@ public class PacmanGame extends JPanel implements KeyListener {
         }
     }
 
+    /* Dừng và tiếp tục trò chơi */
+    public void togglePauseGame() {
+        isPaused = !isPaused;
+    }
+
     /* Cập nhật trạng thái cho trò chơi */
     public void updateGame() {
-        updatePacmanDirection(pacman);
-        updatePacmanPosition(pacman);
-        updatePacmanCapsule(pacman);
-        updatePacmanScore(pacman);
-        checkCollision(pacman, blinky);
-        checkCollision(pacman, inky);
-        blinky.move();
-        inky.move();
-        checkWin();
+        if (!isPaused){
+            updatePacmanDirection(pacman);
+            updatePacmanPosition(pacman);
+            updatePacmanCapsule(pacman);
+            updatePacmanScore(pacman);
+            checkCollision(pacman, blinky);
+            checkCollision(pacman, inky);
+            blinky.move();
+            inky.move();
+            checkWin();
+        }
     }
 
     /* Kết xuất hình ảnh cho trò chơi */
     public void renderGame() {
-        repaint();
+        if (!isPaused){
+            repaint();
+        }
     }
 
     @Override
@@ -329,9 +343,10 @@ public class PacmanGame extends JPanel implements KeyListener {
         drawPacman(g);
         g.drawImage(blinky.getGhostImage().getImage(), blinky.getX(), blinky.getY(), null);
         g.drawImage(inky.getGhostImage().getImage(), inky.getX(), inky.getY(), null);
-        drawGhostPath(blinky, Color.RED ,g);
-        drawGhostPath(inky, Color.WHITE ,g);
+//        drawGhostPath(blinky, Color.RED ,g);
+//        drawGhostPath(inky, Color.WHITE ,g);
         drawScore(g);
+        drawLife(g);
 //        board.paintGrid(g);
 
     }
@@ -356,6 +371,9 @@ public class PacmanGame extends JPanel implements KeyListener {
                 break;
             case KeyEvent.VK_DOWN:
                 directionCommand = Constant.DOWN;
+                break;
+            case KeyEvent.VK_P: // Xử lý khi phím "p" được nhấn
+                togglePauseGame(); // Gọi phương thức để thay đổi trạng thái dừng trò chơi
                 break;
         }
     }
