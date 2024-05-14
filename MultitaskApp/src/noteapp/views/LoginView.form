@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="noteapp.views.LoginView">
+  <grid id="27dc6" binding="mainPanel" layout-manager="GridBagLayout">
+    <constraints>
+      <xy x="71" y="31" width="572" height="499"/>
+    </constraints>
+    <properties>
+      <enabled value="false"/>
+      <preferredSize width="800" height="600"/>
+      <requestFocusEnabled value="false"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <component id="35373" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag top="0" left="0" bottom="0" right="50" weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <font name="Courier New" size="24" style="0"/>
+          <text value="Nhập mật khẩu: "/>
+        </properties>
+      </component>
+      <component id="420b1" class="javax.swing.JPasswordField" binding="passwordInput">
+        <constraints>
+          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <font size="24" style="0"/>
+          <minimumSize width="200" height="40"/>
+          <preferredSize width="250" height="40"/>
+        </properties>
+      </component>
+      <component id="62432" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag top="0" left="0" bottom="100" right="0" weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <font name="Courier New" size="36" style="1"/>
+          <horizontalAlignment value="0"/>
+          <horizontalTextPosition value="0"/>
+          <iconTextGap value="4"/>
+          <preferredSize width="110" height="30"/>
+          <text value="LOGIN"/>
+        </properties>
+      </component>
+      <component id="5715" class="javax.swing.JLabel" binding="forgetPassword">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+          <gridbag top="20" left="0" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <focusCycleRoot value="false"/>
+          <font name="Courier New" size="20" style="0"/>
+          <foreground color="-6250336"/>
+          <horizontalAlignment value="0"/>
+          <horizontalTextPosition value="0"/>
+          <opaque value="false"/>
+          <preferredSize width="180" height="23"/>
+          <text value="Quên mật khẩu ?"/>
+        </properties>
+      </component>
+      <component id="1f528" class="javax.swing.JButton" binding="loginButton" default-binding="true">
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag top="50" left="0" bottom="0" right="0" weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <font name="Courier New" size="16" style="1"/>
+          <preferredSize width="100" height="40"/>
+          <text value="Login"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>
